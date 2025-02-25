@@ -7,6 +7,18 @@ This project provides a **command-line utility** to convert **STL files** to **S
 
 <!-- 📜 **Read the full documentation here:** [STL to STEP Converter Documentation](https://example.com/documentation) -->
 
+## Installation
+
+### Linux / MacOS:
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Ballistyxx/stl-to-step/main/install.sh)"
+```
+
+### Windows (Using Git Bash or Cygwin):
+```bash
+
+```
+
 ## Features
 ✔ **Converts ASCII and binary STL files** to STEP files  
 ✔ **Merges edges** based on a specified tolerance  

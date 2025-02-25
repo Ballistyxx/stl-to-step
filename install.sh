@@ -3,7 +3,7 @@
 # Define installation directory
 INSTALL_DIR="/usr/local/bin"
 EXECUTABLE_NAME="stltostp"
-REPO_URL="https://github.com/w3gen/stl-to-stp-converter-API"
+REPO_URL="https://github.com/Ballistyxx/stl-to-step"
 
 # Detect OS
 ios=$(uname -s)
@@ -16,18 +16,23 @@ check_error() {
     fi
 }
 
-# Clone repository if not present
-if [ ! -d "stl-to-stp-converter-API" ]; then
-    git clone "$REPO_URL" stl-to-stp
-    check_error "Failed to clone repository."
+# Clone repository with unique folder name if needed
+if [ -d "stl-to-stp" ]; then
+    foldername="stl-to-stp-$(date +%s)"
+else
+    foldername="stl-to-stp"
 fi
-mv install.sh stl-to-stp/
-cd stl-to-stp || check_error "Failed to enter repository directory."
+
+
+git clone "$REPO_URL" "$foldername"
+check_error "Failed to clone repository."
+mv install.sh "$foldername"/
+cd "$foldername" || check_error "Failed to enter repository directory."  
 mkdir -p build && cd build || check_error "Failed to create or enter build directory."
 
 # Install dependencies (Ubuntu)
 if [[ "$ios" == "Linux"* ]]; then
-    sudo apt update && sudo apt install -y cmake make g++
+    #sudo apt update && sudo apt install -y cmake make g++
     check_error "Failed to install dependencies."
 fi
 
@@ -46,6 +51,10 @@ if [[ "$ios" == Linux* ]]; then
         echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.bashrc
         source ~/.bashrc
     fi
+    
+    # Remove build files after installation
+    cd ../../
+    rm -rf "$foldername"
 elif [[ "$ios" == MINGW* ]] || [[ "$ios" == CYGWIN* ]]; then
     # Windows Git Bash or Cygwin: Install to a user-accessible location
     INSTALL_DIR="$HOME/.local/bin"
@@ -57,7 +66,10 @@ elif [[ "$ios" == MINGW* ]] || [[ "$ios" == CYGWIN* ]]; then
     if ! grep -q "export PATH=\"$INSTALL_DIR:\$PATH\"" ~/.bashrc; then
         echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.bashrc
     fi
-    source ~/.bashrc
+    if ! grep -q "export PATH=\"$INSTALL_DIR:\$PATH\"" ~/.bash_profile; then
+        echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.bash_profile
+    fi
+    source ~/.bashrc || source ~/.bash_profile
 else
     echo "Unsupported OS: $ios"
     exit 1
