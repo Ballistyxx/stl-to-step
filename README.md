@@ -1,4 +1,4 @@
-# STL to STEP Converter API
+# STL to STEP Converter
 
 <!-- <img src="https://example.com/project-thumbnail.png" alt="Project Thumbnail: STL to STEP Converter" width="600" ALIGN="left" HSPACE="20" VSPACE="20"/> -->
 
