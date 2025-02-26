@@ -12,7 +12,31 @@ ios=$(uname -s)
 check_error() {
     if [ $? -ne 0 ]; then
         echo "Error: $1"
+        rm -rf "$foldername"
         exit 1
+    fi
+}
+
+# Function to install missing dependencies on Linux
+install_dependencies() {
+    if [[ "$ios" == "Linux"* ]]; then
+        echo "Checking for required dependencies..."
+        
+        # Check if make is installed
+        if ! command -v make &> /dev/null; then
+            echo "Installing make..."
+            sudo apt update && sudo apt install -y make
+            check_error "Failed to install make."
+        fi
+        
+        # Check if cmake is installed
+        if ! command -v cmake &> /dev/null; then
+            echo "Installing cmake..."
+            sudo apt update && sudo apt install -y cmake
+            check_error "Failed to install cmake."
+        fi
+        
+        echo "All required dependencies are installed."
     fi
 }
 
@@ -23,20 +47,18 @@ else
     foldername="stl-to-stp"
 fi
 
-
 git clone "$REPO_URL" "$foldername"
 check_error "Failed to clone repository."
 mv install.sh "$foldername"/
-cd "$foldername" || check_error "Failed to enter repository directory."  
+cd "$foldername" || check_error "Failed to enter repository directory."
+
+# Install dependencies
+install_dependencies
+
+# Create build directory
 mkdir -p build && cd build || check_error "Failed to create or enter build directory."
 
-# Install dependencies (Ubuntu)
-if [[ "$ios" == "Linux"* ]]; then
-    #sudo apt update && sudo apt install -y cmake make g++
-    check_error "Failed to install dependencies."
-fi
-
-# Build the software (assuming a Makefile or similar build system)
+# Build the software
 cmake ..
 make -j$(nproc)
 check_error "Build failed. Ensure you have necessary dependencies."
