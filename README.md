@@ -14,10 +14,11 @@ This project provides a **command-line utility** to convert **STL files** to **S
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Ballistyxx/stl-to-step/main/install.sh)"
 ```
 
-### Windows (Using Git Bash or Cygwin):
-```ps1
+### Windows:
+Currently a work in progress! For Windows systems, you can use WSL and the Linux/MacOS command to build the program.
+<!-- ```ps1
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Ballistyxx/stl-to-step/main/install.ps1'))
-```
+``` -->
 
 ## Features
 ✔ **Converts ASCII and binary STL files** to STEP files  
