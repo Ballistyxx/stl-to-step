@@ -10,13 +10,13 @@ This project provides a **command-line utility** to convert **STL files** to **S
 ## Installation
 
 ### Linux / MacOS:
-```bash
+```powershell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Ballistyxx/stl-to-step/main/install.sh)"
 ```
 
 ### Windows (Using Git Bash or Cygwin):
-```bash
-
+```ps1
+Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Ballistyxx/stl-to-step/main/install.ps1'))
 ```
 
 ## Features
